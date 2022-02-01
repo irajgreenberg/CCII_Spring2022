@@ -5,7 +5,7 @@ class SnowFlake {
   PVector pos;
   float radius = 0.0;
   float innerRadius = 0.0;
-  color col = 0;
+  color col = 0x000000;
 
   float theta = 0.0; // to do our trig calcuations
 
