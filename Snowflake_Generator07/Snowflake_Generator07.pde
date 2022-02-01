@@ -1,32 +1,41 @@
-// Version 06
-// row of snowflakes
-// equally spaced between the sketch window edges
+// Version 07
+// table of snowflakes
+// equally spaced within the sketch window
 
-float flakeCount = 36;
-float flakeW;
-SnowFlake[] flakes;
+float flakeCols = 36;
+float flakeRows = 36;
+float flakeW, flakeH;
+SnowFlake[][] flakes2D;
 
 void setup() {
   size(1024, 768);
   // instantiate the array itself
-  flakes = new SnowFlake[int(flakeCount)];
-  flakeW = width/flakeCount;
-  println(flakeW);
+  flakes2D = new SnowFlake[int(flakeCols)][int(flakeRows)];
+  flakeW = width/flakeCols;
+  flakeH = height/flakeRows;
 
-  for (int i=0; i<flakeCount; i++) {
-    float x =  flakeW/2+flakeW*i;
-    flakes[i] = new SnowFlake(int(random(16, 20)), new PVector(x, height/2, 0),
-      flakeW/2, flakeW/2*.4, color(random(255), random(255), random(255)));
+  // ternary opertor replaces simple if/else
+  // returns what's after ? if true or what's after : if false
+  float flakeR = flakeW < flakeH ? flakeW : flakeH;
+
+  for (int i=0; i<flakeCols; i++) {
+    for (int j=0; j<flakeRows; j++) {
+      float x =  flakeW/2+flakeW*i;
+      float y =  flakeH/2+flakeH*j;
+      flakes2D[i][j] = new SnowFlake(int(random(16, 20)), new PVector(x, y),
+        flakeR/2, flakeR/2*.4, color(random(255), random(255), random(255)));
+    }
   }
-
   noFill();
   strokeWeight(1);
 }
 
 void draw() {
   background(255);
-  for (int i=0; i<flakeCount; i++) {
-    stroke(flakes[i].col);
-    flakes[i].draw();
+  for (int i=0; i<flakes2D.length; i++) {
+    for (int j=0; j<flakes2D[i].length; j++) {
+      stroke(flakes2D[i][j].col);
+      flakes2D[i][j].draw();
+    }
   }
 }
